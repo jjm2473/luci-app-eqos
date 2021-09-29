@@ -1,6 +1,12 @@
 #!/bin/sh
 
-dev=br-lan
+dev=$(
+	. /lib/functions/network.sh
+	network_get_device device lan
+	echo -n "$device"
+)
+
+[ -z "$dev" ] && dev=br-lan
 
 stop_qos() {
 	tc qdisc del dev $dev root 2>/dev/null
